@@ -3,7 +3,12 @@ package cable
 import "time"
 
 func CertificateWindowSameDay(left, right time.Time, location *time.Location) bool {
-	return CertificateWindowDay(left, location) == CertificateWindowDay(right, location)
+	if location == nil {
+		location = time.UTC
+	}
+	leftDay := CertificateWindowDay(left, location)
+	rightDay := CertificateWindowDay(right, location)
+	return leftDay == rightDay
 }
 func CertificateWindowExpiry(t time.Time, location *time.Location) time.Time {
 	if location == nil {
